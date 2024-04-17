@@ -1,6 +1,6 @@
 body {
   background-color: #eee;
-  display: flex;
+  
   font-family: 'Muli', sans-serif;
 }
 
@@ -18,13 +18,7 @@ h1 {
   border-bottom: 1px solid #eee;
 }
 
-label {
-  display: flex;
-  flex-direction: column;
-  text-transform: uppercase;
-  color: #aaa;
-  margin: 20px;
-}
+
 
 input[type="text"] {
   padding: 6px;

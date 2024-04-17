@@ -29,8 +29,9 @@ function App() {
   async function newContract() {
     const beneficiary = document.getElementById('beneficiary').value;
     const arbiter = document.getElementById('arbiter').value;
-    const value = ethers.BigNumber.from(document.getElementById('wei').value);
-    const escrowContract = await deploy(signer, arbiter, beneficiary, value);
+    const value = ethers.BigNumber.from(document.getElementById('ether').value);
+    const WeiToEther = ethers.utils.formatEther(value)
+    const escrowContract = await deploy(signer, arbiter, beneficiary, WeiToEther);
 
 
     const escrow = {
@@ -55,45 +56,66 @@ function App() {
 
   return (
     <>
-      <div className="contract">
-        <h1> New Contract </h1>
-        <label>
-          Arbiter Address
-          <input type="text" id="arbiter" />
-        </label>
+      <br /><br />
+    
 
-        <label>
-          Beneficiary Address
-          <input type="text" id="beneficiary" />
-        </label>
+        <div className="row">
+          <div className="col-sm-6">
+            <div className="card">
+              <div className="card-body">
+                <h2 className="card-title">Deploy New Contract</h2>
+                <p>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Arbiter Address</label>
+                    <input type="text" class="form-control form-control-lg" id="arbiter" placeholder="0xf39Fd6e........" />
 
-        <label>
-          Deposit Amount (in Wei)
-          <input type="text" id="wei" />
-        </label>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Beneficiary Address</label>
+                    <input type="text" class="form-control form-control-lg" id="beneficiary" placeholder="0xf39Fd6e........" />
 
-        <div
-          className="button"
-          id="deploy"
-          onClick={(e) => {
-            e.preventDefault();
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Deposit Amount </label>
+                    <input type="text" class="form-control form-control-lg" id="ether" placeholder="1" />
+                    <small id="emailHelp" class="form-text text-muted">(in Ether)</small>
+                  </div>
 
-            newContract();
-          }}
-        >
-          Deploy
+                  <button
+                    type='button'
+                    className="btn btn-primary"
+                    id="deploy"
+                    onClick={(e) => {
+                      e.preventDefault();
+
+                      newContract();
+                    }}
+                  >
+                    Deploy
+                  </button>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="col-sm-6">
+            <div className="card">
+              <div className="card-body">
+                <h2 className="card-title">Deployed Contract</h2>
+                <p className="card-text">
+
+                  <div id="container">
+                    {escrows.map((escrow) => {
+                      return <Escrow key={escrow.address} {...escrow} />;
+                    })}
+                  </div>
+
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      
 
-      <div className="existing-contracts">
-        <h1> Existing Contracts </h1>
-
-        <div id="container">
-          {escrows.map((escrow) => {
-            return <Escrow key={escrow.address} {...escrow} />;
-          })}
-        </div>
-      </div>
     </>
   );
 }
